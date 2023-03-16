@@ -5,4 +5,4 @@ FROM `temperatures`
 WHERE `month` = 7 OR `month` = 8
 GROUP BY `city`
 ORDER BY `avg_temp` DESC
-sh: 1: :x: not found
+LIMIT 3;
