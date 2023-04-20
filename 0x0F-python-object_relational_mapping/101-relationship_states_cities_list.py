@@ -1,27 +1,18 @@
 #!/usr/bin/python3
-"""
-All states via SQLAlchemy
-"""
-from sys import argv
-from relationship_state import Base, State
-from relationship_city import City
-from sqlalchemy import (create_engine)
-from sqlalchemy.orm import Session
+"""lists all states with a name starting with N
+(upper N) from the database hbtn_0e_0_usa"""
 
-if __name__ == "__main__":
-    engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}'.
-                           format(argv[1], argv[2], argv[3]),
-                           pool_pre_ping=True)
-    Base.metadata.create_all(engine)
+if __name__ == '__main__':
 
-    session = Session(engine)
+    import MySQLdb
+    import sys
 
-    data = session.query(State).order_by(State.id).all()
+    db = MySQLdb.connect(host='localhost', port=3306,
+                         user=sys.argv[1], passwd=sys.argv[2], db=sys.argv[3])
 
-    for row in data:
-        print("{}: {}".format(row.id, row.name))
-        for city in row.cities:
-            print("    {}: {}".format(city.id, city.name))
-
-    session.commit()
-    session.close()
+    cur = db.cursor()
+    cur.execute("""SELECT * FROM states WHERE name
+                LIKE BINARY 'N%' ORDER BY states.id ASC""")
+    rows = cur.fetchall()
+    for row in rows:
+        print(row)
