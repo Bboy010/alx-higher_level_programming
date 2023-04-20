@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """script that takes argument and displays
-values in the states"""
+values in the states."""
 
 if __name__ == '__main__':
 
